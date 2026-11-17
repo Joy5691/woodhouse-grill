@@ -1,0 +1,7 @@
+# Source material & dev tools that the live site never loads
+site/tools/
+site/assets/menu/
+site/assets/dishes/
+site/assets/logo/*.png
+site/assets/logo/logo-original.jpg
+dev-server.js

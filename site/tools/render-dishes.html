@@ -1,0 +1,9 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Dish renderer (dev tool)</title>
+<style>body{margin:0;background:#1a1410;color:#eee;font:12px monospace}#view{position:fixed;right:0;top:0;opacity:.0;pointer-events:none}#grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:6px}#grid img{width:100%;background:#2a1e16;border-radius:8px}pre{padding:6px;margin:0;max-height:120px;overflow:auto}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head><body>
+<p style="padding:6px">Dev tool: renders every menu dish once and saves light WebP images to assets/dishes3d/ (needs the dev server). Run <code>renderAll()</code> in the console.</p>
+<div id="view"></div><div id="grid"></div><pre id="log"></pre>
+<script type="module" src="dish-renderer.js"></script>
+</body></html>

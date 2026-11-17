@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en" class="is-loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Woodhouse Grill — Texas-Style Steakhouse · Banani, Dhaka</title>
+  <meta name="description" content="Woodhouse Grill, Banani, Dhaka: Texas-style steaks, six-hour slow-smoked ribs and brisket, grilled over open flame since 2017. Full menu & prices, reservations on WhatsApp.">
+  <meta name="theme-color" content="#0b0806">
+  <meta property="og:title" content="Woodhouse Grill — Texas-Style Steakhouse, Banani">
+  <meta property="og:description" content="Texas-style steaks, slow-smoked ribs & brisket. Level 4, BTI Laureate, Road 11, Banani, Dhaka.">
+  <meta property="og:image" content="assets/logo/logo-sm.webp">
+  <link rel="icon" type="image/png" href="assets/logo/logo-sm.webp">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@500;600;700&family=Rubik+Doodle+Shadow&family=Rye&family=Zilla+Slab:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="assets/logo/logo-ring.webp">
+  <link rel="preload" as="image" href="assets/logo/logo-disc.webp">
+  <link rel="preload" as="image" href="assets/logo/logo-word.webp">
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ SVG DEFS / ICONS ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="fireGrad" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#e8402a"/><stop offset=".55" stop-color="#ff8a3d"/><stop offset="1" stop-color="#ffd27a"/>
+      </linearGradient>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+      <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.4z"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.5 6.5 8.5 6 8.5-6" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8.5c0-.3.2-.5.5-.5z"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 9h6M9 13h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-knife" viewBox="0 0 24 24"><path d="M3 21 15 9l3 3c-3 3-8 6-15 9zM15 9l4-4a2 2 0 0 1 3 3l-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2M21 12a9 9 0 0 1-15.5 6.2M18 2v4h-4M6 22v-4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-flame" viewBox="0 0 64 64"><path d="M33 4c2 10-6 14-6 22 0 4 2 6 4 7-3-1-9-4-9-11-6 6-9 12-9 19 0 12 10 19 20 19s20-7 20-19c0-9-5-14-8-17 0 4-2 7-5 8 4-9 1-20-7-28z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ LOADER (logo animation) ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <canvas class="loader__embers" id="loaderEmbers"></canvas>
+    <div class="loader__heat"></div>
+    <div class="loader__stage">
+      <div class="loader__logo" id="loaderLogo">
+        <div class="loader__halo"></div>
+        <img class="ll ll--ring"  src="assets/logo/logo-ring.webp"  alt="">
+        <div class="ll-spark" id="ringSpark"><i></i></div>
+        <img class="ll ll--disc"  src="assets/logo/logo-disc.webp"  alt="">
+        <img class="ll ll--flame" src="assets/logo/logo-flame.webp" alt="">
+        <img class="ll ll--fork"  src="assets/logo/logo-fork.webp"  alt="">
+        <img class="ll ll--knife" src="assets/logo/logo-knife.webp" alt="">
+        <img class="ll ll--word"  src="assets/logo/logo-word.webp"  alt="">
+        <img class="ll ll--line"  src="assets/logo/logo-line.webp"  alt="">
+        <img class="ll ll--grill" src="assets/logo/logo-grill.webp" alt="">
+        <div class="ll-shine"></div>
+        <div class="loader__shock"></div>
+      </div>
+    </div>
+    <div class="loader__meta">
+      <span class="loader__label"><span class="loader__dot"></span><span id="loaderLabel">Lighting the coals</span></span>
+      <span class="loader__count"><span id="loaderCount">000</span><small>%</small></span>
+    </div>
+    <div class="loader__bar"><i id="loaderBar"></i></div>
+    <div class="loader__tag">Texas-Style Steakhouse · Banani, Dhaka</div>
+    <div class="loader__edge" id="loaderEdge"></div>
+  </div>
+
+  <!-- ============ UI CHROME ============ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><i id="scrollProgress"></i></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__ring"><span class="cursor__label" id="cursorLabel"></span></div><div class="cursor__dot"></div></div>
+
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__brand" data-scroll aria-label="Woodhouse Grill — home">
+      <img src="assets/logo/logo-sm.webp" alt="Woodhouse Grill logo" width="120" height="90">
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#story" data-scroll>Story</a>
+      <a href="#cuts" data-scroll>Signature Cuts</a>
+      <a href="#smokehouse" data-scroll>Smokehouse</a>
+      <a href="#menu" data-scroll>Menu &amp; Prices</a>
+      <a href="#visit" data-scroll>Contact</a>
+    </nav>
+    <div class="nav__right">
+      <a href="tel:+8801798474305" class="nav__phone"><svg><use href="#i-phone"/></svg>01798-474305</a>
+      <a href="#visit" class="btn btn--fire btn--sm" data-scroll data-magnetic><span>Reserve</span></a>
+      <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="mnav" id="mnav" aria-hidden="true">
+    <div class="mnav__bg" data-close></div>
+    <aside class="mnav__panel" role="dialog" aria-label="Site menu">
+      <div class="mnav__brand"><img src="assets/logo/logo-sm.webp" alt="" width="86" height="64"><span><span class="live-dot" data-live-dot></span><b data-live-text>Open daily</b></span></div>
+      <nav class="mnav__links">
+        <a href="#story" data-scroll><small>01</small><span>Story</span><svg><use href="#i-arrow"/></svg></a>
+        <a href="#cuts" data-scroll><small>02</small><span>Signature Cuts</span><svg><use href="#i-arrow"/></svg></a>
+        <a href="#smokehouse" data-scroll><small>03</small><span>Smokehouse</span><svg><use href="#i-arrow"/></svg></a>
+        <a href="#menu" data-scroll><small>04</small><span>Menu &amp; Prices</span><svg><use href="#i-arrow"/></svg></a>
+        <a href="#visit" data-scroll><small>05</small><span>Contact</span><svg><use href="#i-arrow"/></svg></a>
+      </nav>
+      <div class="mnav__foot">
+        <a class="btn btn--fire btn--block" href="#visit" data-scroll><span>Reserve a Table</span></a>
+        <div class="mnav__quick">
+          <a href="tel:+8801798474305"><svg><use href="#i-phone"/></svg>Call</a>
+          <a href="https://wa.me/8801798474305" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Woodhouse+Grill+Banani+Dhaka" target="_blank" rel="noopener"><svg><use href="#i-pin"/></svg>Map</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- floating quick access to prices -->
+  <a href="#menu" class="fab" id="fab" data-jump aria-label="Menu and prices">
+    <svg><use href="#i-menu"/></svg><span>Menu &amp; Prices</span>
+  </a>
+  <button class="backpill" id="backpill" type="button" hidden><svg><use href="#i-arrow"/></svg>Back to where you were</button>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__media">
+        <img class="hero__img" id="heroImg"
+             src="https://images.unsplash.com/photo-1561553521-b6cddc085c5f?w=1600&q=75&auto=format&fit=crop"
+             srcset="https://images.unsplash.com/photo-1561553521-b6cddc085c5f?w=900&q=75&auto=format&fit=crop 900w,
+                     https://images.unsplash.com/photo-1561553521-b6cddc085c5f?w=1500&q=78&auto=format&fit=crop 1500w,
+                     https://images.unsplash.com/photo-1561553521-b6cddc085c5f?w=2200&q=80&auto=format&fit=crop 2200w"
+             sizes="100vw" alt="A thick steak searing on a cast-iron grill over open flame">
+        <div class="hero__shade"></div>
+      </div>
+      <canvas class="hero__smoke" id="heroSmoke" aria-hidden="true"></canvas>
+      <canvas class="hero__embers" id="heroEmbers" aria-hidden="true"></canvas>
+
+      <div class="hero__content container">
+        <p class="eyebrow hero__eyebrow" data-hero="eyebrow"><span class="eyebrow__line"></span>Texas-Style Steakhouse · Banani, Dhaka</p>
+        <h1 class="hero__title" aria-label="Fire. Smoke. Patience.">
+          <span class="hero__line"><span class="hero__word">Fire.</span></span>
+          <span class="hero__line hero__line--outline"><span class="hero__word">Smoke.</span></span>
+          <span class="hero__line hero__line--italic"><span class="hero__word">Patience.</span></span>
+        </h1>
+        <div class="hero__bottom">
+          <p class="hero__lead" data-hero="lead">Texas-style steaks, six-hour slow-smoked ribs &amp; brisket, grilled over open flame in the heart of Banani since 2017.</p>
+          <div class="hero__ctas" data-hero="ctas">
+            <a href="#visit" class="btn btn--fire" data-scroll data-magnetic><span>Reserve a Table</span><svg><use href="#i-arrow"/></svg></a>
+            <a href="#menu" class="btn btn--ghost" data-scroll data-magnetic><span>Menu &amp; Prices</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__badge" data-hero="badge" aria-hidden="true">
+        <svg viewBox="0 0 200 200" class="hero__badge-text">
+          <defs><path id="badgeCircle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
+          <text id="badgeText"><textPath href="#badgeCircle">WOODHOUSE GRILL ✦ SINCE 2017 ✦ BANANI · DHAKA ✦ </textPath></text>
+        </svg>
+        <svg viewBox="0 0 64 64" class="hero__badge-flame"><use href="#i-flame" fill="url(#fireGrad)"/></svg>
+      </div>
+
+      <div class="hero__info container" data-hero="info">
+        <div class="hero__open"><span class="live-dot" data-live-dot></span><span data-live-text>Open daily · 1 PM – 12 AM</span></div>
+        <div class="hero__addr">Level 4, BTI Laureate · Road 11, Banani</div>
+        <a href="#story" class="hero__scroll" data-scroll><span>Scroll</span><i></i></a>
+      </div>
+    </section>
+
+    <!-- ============ STORY ============ -->
+    <section class="story" id="story">
+      <div class="container">
+        <p class="eyebrow" data-reveal><span class="eyebrow__line"></span>Our Story · Since 2017</p>
+        <p class="story__manifesto" data-words>
+          We don't hide great beef behind heavy sauces. We season it, respect the cut, and let the <em>fire</em> do the talking — slow smoke, open flame, the way they do it in <em>Texas</em>. Right here in Banani.
+        </p>
+        <div class="stats">
+          <div class="stat" data-reveal><b><span data-count="6">0</span><sup>+</sup></b><span>hours of smoke on every rib &amp; brisket</span></div>
+          <div class="stat" data-reveal><b><span data-count="24">0</span><sup>h</sup></b><span>marinade on our East Texas steaks</span></div>
+          <div class="stat" data-reveal><b><span data-count="1600">0</span><sup>g</sup></b><span>Broncho Ribs Platter — built to share</span></div>
+          <div class="stat" data-reveal><b><span data-count="2017" data-from="1990">0</span></b><span>firing the grill in Banani since</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marquee1">
+        <span>Slow Smoked</span><i>✦</i><span class="o">Fire Kissed</span><i>✦</i><span>Texas Style</span><i>✦</i><span class="o">Since 2017</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- ============ 3D CUT STUDIO ============ -->
+    <section class="studio" id="cuts">
+      <canvas class="studio__embers" id="studioEmbers" aria-hidden="true"></canvas>
+      <div class="studio__glow" aria-hidden="true"></div>
+      <div class="studio__stage" id="studioStage" aria-label="Interactive 3D steak — drag to rotate">
+        <div class="studio__loading" id="studioLoading"><span></span>Firing up the grill…</div>
+      </div>
+
+      <div class="studio__ui">
+        <header class="studio__head">
+          <p class="eyebrow"><span class="eyebrow__line"></span>Signature Cuts · Interactive 3D</p>
+          <h2 class="h2">Choose your <em>cut.</em></h2>
+        </header>
+
+        <nav class="studio__list" id="cutList" aria-label="Choose a cut"></nav>
+
+        <aside class="studio__panel" id="cutPanel" aria-live="polite">
+          <div class="studio__idx"><b id="cutIdx">01</b> / <span id="cutTotal">07</span></div>
+          <h3 class="studio__name" id="cutName">Ribeye</h3>
+          <div class="studio__chips" id="cutChips"></div>
+          <p class="studio__desc" id="cutDesc"></p>
+
+          <div class="done" id="done">
+            <div class="done__head"><span>How do you like it?</span><b id="doneLabel">Medium Rare · 55°C</b></div>
+            <div class="done__track" id="doneTrack" role="radiogroup" aria-label="Doneness"></div>
+            <p class="done__note" id="doneNote">Tap a doneness to slice the steak open and see inside.</p>
+          </div>
+
+          <div class="studio__actions">
+            <button class="btn btn--fire btn--sm" id="sliceBtn" type="button" data-magnetic><svg><use href="#i-knife"/></svg><span>Slice it open</span></button>
+            <a href="#menu" class="btn btn--ghost btn--sm" id="cutPrice" data-jump data-item="ribeye"><span>Price &amp; sides</span><svg><use href="#i-arrow"/></svg></a>
+          </div>
+        </aside>
+
+        <div class="studio__hint"><svg><use href="#i-rotate"/></svg>Drag to rotate</div>
+      </div>
+    </section>
+
+    <!-- ============ SMOKEHOUSE (bento) ============ -->
+    <section class="smoke" id="smokehouse">
+      <div class="container">
+        <div class="smoke__head">
+          <div>
+            <p class="eyebrow" data-reveal><span class="eyebrow__line"></span>Woodhouse Delicacy · The Smokehouse</p>
+            <h2 class="h2" data-split-lines>Low &amp; slow. <em>Six hours of smoke.</em></h2>
+          </div>
+          <p class="smoke__lead" data-reveal>Ribs and brisket sit in the smoke pit for 6+ hours — until the bark turns black and the meat falls off the bone. Finished on the grill with our house-made BBQ sauce.</p>
+        </div>
+        <div class="bento" id="smokeBento"></div>
+      </div>
+    </section>
+
+    <!-- ============ FIRE REEL ============ -->
+    <section class="reel" id="reel" aria-label="Gallery">
+      <div class="reel__row" data-dir="-1">
+        <div class="reel__track">
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1614119068601-483274e9dcb7?w=900&q=75&auto=format&fit=crop" alt="Tongs lifting a seared steak over flaming charcoal"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=900&q=75&auto=format&fit=crop" alt="Seared steak with a pink centre"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1558030137-d464dd688b00?w=900&q=75&auto=format&fit=crop" alt="Steaks grilling over glowing coals"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=75&auto=format&fit=crop" alt="Glazed BBQ ribs on a board"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1546964124-0cce460f38ef?w=900&q=75&auto=format&fit=crop" alt="Grilled steak with asparagus"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1690983325551-b922137727be?w=900&q=75&auto=format&fit=crop" alt="Premium raw cuts laid on slate"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1558030089-02acba3c214e?w=900&q=75&auto=format&fit=crop" alt="Tomahawk steak over flames"></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MENU & PRICES (single place for every price) ============ -->
+    <section class="menu" id="menu">
+      <div class="container">
+        <div class="menu__top">
+          <div>
+            <p class="eyebrow eyebrow--ink"><span class="eyebrow__line"></span>Every price, one place</p>
+            <h2 class="h2">Menu &amp; <em>Prices</em></h2>
+            <p class="menu__sub">All prices in BDT and all-inclusive. Steaks come with your choice of sides &amp; sauces.</p>
+          </div>
+          <label class="msearch">
+            <svg><use href="#i-search"/></svg>
+            <input id="menuSearch" type="search" placeholder="Search — ribeye, brisket, latte…" autocomplete="off" aria-label="Search the menu">
+            <kbd>/</kbd>
+          </label>
+        </div>
+
+        <div class="menu__bar" id="menuBar">
+          <nav class="menu__tabs" id="menuTabs" role="tablist" aria-label="Menu categories"></nav>
+        </div>
+
+        <div class="mpanel" id="menuPanel">
+          <header class="mpanel__head">
+            <span class="mpanel__icon" id="mpIcon"></span>
+            <div class="mpanel__titles">
+              <h3 id="mpTitle">West Texas Steaks</h3>
+              <p id="mpNote"></p>
+            </div>
+            <div class="mpanel__nav">
+              <span class="mpanel__count" id="mpCount"></span>
+              <button type="button" class="mpanel__arrow" id="mpPrev" aria-label="Previous category"><svg><use href="#i-arrow"/></svg></button>
+              <button type="button" class="mpanel__arrow" id="mpNext" aria-label="Next category"><svg><use href="#i-arrow"/></svg></button>
+            </div>
+          </header>
+          <ul class="mgrid" id="menuGrid" aria-live="polite"></ul>
+          <p class="menu__empty" id="menuEmpty" hidden>No dishes match “<span id="menuQ"></span>”. Try “steak”, “ribs” or “coffee”.</p>
+          <p class="mpanel__swipe">Swipe left or right for more categories</p>
+        </div>
+
+        <div class="mextras">
+          <div><b>Sides</b><span>any two with steaks &amp; ribs</span><ul id="sidesList"></ul></div>
+          <div><b>Sauces</b><span>any two with steaks</span><ul id="saucesList"></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRESS ============ -->
+    <section class="press" id="press">
+      <div class="container">
+        <div class="press__head">
+          <div>
+            <p class="eyebrow"><span class="eyebrow__line"></span>As featured in the press</p>
+            <h2 class="h2" data-split-lines>Dhaka's critics <em>agree.</em></h2>
+          </div>
+          <p class="press__lead" data-reveal>Two of Bangladesh's leading newspapers on why Woodhouse is the city's home of Texas-style steak.</p>
+        </div>
+        <div class="press__grid">
+          <a class="pcard" href="https://www.dhakatribune.com/business/359897/woodhouse-grill-serving-some-scrumptious-steaks" target="_blank" rel="noopener" data-reveal data-tilt data-cursor="Read">
+            <div class="pcard__frame">
+              <div class="pcard__bar"><i></i><i></i><i></i><span>dhakatribune.com/business/woodhouse-grill</span></div>
+              <div class="pcard__shot"><img src="assets/press/dhaka-tribune.png" alt="Dhaka Tribune article: Woodhouse Grill — serving some scrumptious steaks" loading="lazy" width="1672" height="527"></div>
+            </div>
+            <div class="pcard__body">
+              <span class="pcard__pub">Dhaka Tribune · Business</span>
+              <blockquote>“One of the very few steakhouses that lived up to the hype.”</blockquote>
+              <span class="pcard__cta">Read the review <svg><use href="#i-arrow"/></svg></span>
+            </div>
+          </a>
+          <a class="pcard" href="https://www.tbsnews.net/node/207673" target="_blank" rel="noopener" data-reveal data-tilt data-cursor="Read">
+            <div class="pcard__frame">
+              <div class="pcard__bar"><i></i><i></i><i></i><span>tbsnews.net/features/steaks-at-stake</span></div>
+              <div class="pcard__shot"><img src="assets/press/tbs.jpg" alt="The Business Standard: Steaks at stake — Woodhouse Grill, best Texas-style steaks" loading="lazy" width="1882" height="442"></div>
+            </div>
+            <div class="pcard__body">
+              <span class="pcard__pub">The Business Standard · Best 5 steaks in town</span>
+              <blockquote>Named for the <em>best Texas-style steaks</em> — “the talk of the town” for steak.</blockquote>
+              <span class="pcard__cta">Read the feature <svg><use href="#i-arrow"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT & RESERVE ============ -->
+    <section class="contact" id="visit">
+      <div class="contact__bg" data-parallax-wrap>
+        <img data-parallax="-8" src="https://images.unsplash.com/photo-1765646772493-7b5341714eea?w=2000&q=75&auto=format&fit=crop" alt="" loading="lazy">
+      </div>
+      <div class="container">
+        <header class="contact__head">
+          <p class="eyebrow"><span class="eyebrow__line"></span>Contact &amp; Reserve</p>
+          <h2 class="h2 h2--xl" data-split-lines>Your table <em>is by the fire.</em></h2>
+        </header>
+
+        <div class="cgrid">
+          <div class="ccard ccard--phone" data-reveal>
+            <div class="ccard__glow"></div>
+            <div class="ccard__label"><span class="ring"><svg><use href="#i-phone"/></svg></span>Call or WhatsApp</div>
+            <a class="ccard__big" href="tel:+8801798474305">01798<span>-</span>474305</a>
+            <p class="ccard__sub">Reservations, large groups &amp; parties — we answer from 1 PM to midnight.</p>
+            <div class="ccard__actions">
+              <a class="btn btn--fire" href="tel:+8801798474305" data-magnetic><svg><use href="#i-phone"/></svg><span>Call now</span></a>
+              <a class="btn btn--wa" href="https://wa.me/8801798474305" target="_blank" rel="noopener" data-magnetic><svg><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+            </div>
+          </div>
+
+          <div class="ccard ccard--hours" data-reveal>
+            <div class="ccard__label"><span class="ring ring--gold"><svg><use href="#i-clock"/></svg></span>Opening hours</div>
+            <div class="hours__top">
+              <div class="status" id="liveStatus"><span class="live-dot" data-live-dot></span><b data-live-text>Open daily</b></div>
+              <div class="clock"><small>Dhaka time</small><b id="dhakaClock">--:--</b></div>
+            </div>
+            <div class="hours__big">1 PM <i>—</i> 12 AM</div>
+            <p class="hours__count" id="hoursCount">&nbsp;</p>
+            <div class="hours__bar" id="hoursBar" aria-hidden="true">
+              <div class="hours__fill" id="hoursFill"></div>
+              <div class="hours__now" id="hoursNow"><span id="hoursNowLbl"></span></div>
+            </div>
+            <div class="hours__ticks"><span>1 PM</span><span>4 PM</span><span>7 PM</span><span>10 PM</span><span>12 AM</span></div>
+            <div class="week" id="week" role="tablist" aria-label="Pick a day"></div>
+            <p class="week__info" id="weekInfo" aria-live="polite"></p>
+          </div>
+
+          <div class="ccard ccard--map" data-reveal>
+            <iframe title="Map to Woodhouse Grill, Banani" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              src="https://maps.google.com/maps?q=Woodhouse%20Grill%2C%20Road%2011%2C%20Banani%2C%20Dhaka&z=16&output=embed"></iframe>
+            <div class="mapcard">
+              <div class="ccard__label"><span class="ring"><svg><use href="#i-pin"/></svg></span>Find us</div>
+              <p class="mapcard__addr"><b>Level 4, BTI Laureate</b>House 56, Block F, Road 11<br>Banani, Dhaka 1213</p>
+              <div class="mapcard__btns">
+                <a class="btn btn--fire btn--sm" href="https://www.google.com/maps/search/?api=1&query=Woodhouse+Grill+Banani+Dhaka" target="_blank" rel="noopener"><span>Get directions</span><svg><use href="#i-arrow"/></svg></a>
+                <button class="btn btn--ghost btn--sm" type="button" id="copyAddr"><svg><use href="#i-copy"/></svg><span>Copy address</span></button>
+              </div>
+            </div>
+          </div>
+
+          <form class="ccard reserve" id="reserveForm" novalidate data-reveal>
+            <div class="reserve__head">
+              <img src="assets/logo/logo-sm.webp" alt="" width="64" height="48">
+              <div><h3>Reserve a table</h3><p>Sent straight to us on WhatsApp.</p></div>
+            </div>
+            <label class="field"><span>Your name</span><input name="name" required autocomplete="name" placeholder="e.g. Arif Rahman"></label>
+            <label class="field"><span>Phone</span><input name="phone" required type="tel" autocomplete="tel" placeholder="01XXX-XXXXXX"></label>
+            <div class="field-row">
+              <label class="field"><span>Date</span><input name="date" required type="date"></label>
+              <label class="field"><span>Time</span><select name="time" required><option value="">Select</option></select></label>
+            </div>
+            <div class="field guests">
+              <span>Guests</span>
+              <div class="guests__ctrl">
+                <button type="button" data-g="-1" aria-label="Fewer guests">−</button>
+                <output name="guests" id="guestsOut">2</output>
+                <button type="button" data-g="1" aria-label="More guests">+</button>
+              </div>
+            </div>
+            <label class="field"><span>Occasion / notes <em>(optional)</em></span><input name="notes" placeholder="Birthday, window seat, …"></label>
+            <button class="btn btn--fire btn--block" type="submit"><svg><use href="#i-wa"/></svg><span>Request via WhatsApp</span></button>
+            <p class="reserve__msg" id="reserveMsg" role="status"></p>
+          </form>
+
+          <a class="ccard ccard--mini" href="mailto:woodhousegrillbd@gmail.com" data-reveal>
+            <span class="ring"><svg><use href="#i-mail"/></svg></span>
+            <span><small>Email</small>woodhousegrillbd@gmail.com</span>
+            <svg class="mini__arrow"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="ccard ccard--mini" href="https://www.facebook.com/WoodhouseGrillBD" target="_blank" rel="noopener" data-reveal>
+            <span class="ring ring--fb"><svg><use href="#i-fb"/></svg></span>
+            <span><small>Facebook</small>/WoodhouseGrillBD</span>
+            <svg class="mini__arrow"><use href="#i-arrow"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <canvas class="footer__embers" id="footerEmbers" aria-hidden="true"></canvas>
+    <div class="container footer__top">
+      <img class="footer__logo" src="assets/logo/logo-sm.webp" alt="Woodhouse Grill" width="220" height="164" loading="lazy">
+      <div class="footer__cols">
+        <div><h5>Explore</h5><a href="#story" data-scroll>Story</a><a href="#cuts" data-scroll>Signature Cuts</a><a href="#smokehouse" data-scroll>Smokehouse</a><a href="#menu" data-scroll>Menu &amp; Prices</a></div>
+        <div><h5>Visit</h5><p>Level 4, House 56, Block F<br>Road 11, Banani, Dhaka 1213</p><p>Daily · 1 PM – 12 AM</p></div>
+        <div><h5>Contact</h5><a href="tel:+8801798474305">+880 1798-474305</a><a href="mailto:woodhousegrillbd@gmail.com">woodhousegrillbd@gmail.com</a><a href="https://www.facebook.com/WoodhouseGrillBD" target="_blank" rel="noopener">Facebook</a></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="doodle" id="doodle" aria-hidden="true">
+        <svg width="0" height="0" style="position:absolute">
+          <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter>
+        </svg>
+        <!-- hand-drawn doodles -->
+        <svg class="dd dd--flame" viewBox="0 0 80 100"><path pathLength="1" d="M40 96c-20 0-32-14-30-30 2-14 12-20 14-34 8 8 8 18 6 24 8-6 10-20 4-50 22 14 34 34 32 56-1 20-12 34-26 34z"/><path pathLength="1" d="M40 90c-8 0-13-6-12-13 1-6 6-9 8-15 4 6 2 10 2 13 4-2 6-8 4-14 8 6 12 13 11 19-1 6-6 10-13 10z"/></svg>
+        <svg class="dd dd--fork" viewBox="0 0 120 120"><path pathLength="1" d="M22 104 92 30M84 18l18 18M90 14l18 18M78 24l20 20M82 40l-12-12"/><path pathLength="1" d="M28 18c26 8 52 34 72 74l-8 8C66 76 38 52 16 30z"/></svg>
+        <svg class="dd dd--steak" viewBox="0 0 140 100"><path pathLength="1" d="M20 52c-6-22 14-40 42-40 30 0 62 10 62 34 0 28-34 44-66 42-22-1-34-14-38-36z"/><path pathLength="1" d="M50 34c10-4 24-2 28 8s-6 18-18 18-18-6-16-14M98 30l-22 46M112 40l-20 42M80 24l-22 50"/></svg>
+        <svg class="dd dd--star1" viewBox="0 0 40 40"><path pathLength="1" d="M20 2v36M2 20h36M8 8l24 24M32 8 8 32"/></svg>
+        <svg class="dd dd--star2" viewBox="0 0 40 40"><path pathLength="1" d="M20 4c2 10 6 14 16 16-10 2-14 6-16 16-2-10-6-14-16-16 10-2 14-6 16-16z"/></svg>
+        <svg class="dd dd--star3" viewBox="0 0 40 40"><path pathLength="1" d="M20 4c2 10 6 14 16 16-10 2-14 6-16 16-2-10-6-14-16-16 10-2 14-6 16-16z"/></svg>
+        <div class="doodle__word" id="doodleWord">WOODHOUSE</div>
+        <svg class="dd dd--line" viewBox="0 0 1000 40" preserveAspectRatio="none"><path pathLength="1" d="M10 22c40-14 80 14 120 0s80-14 120 0 80 14 120 0 80-14 120 0 80 14 120 0 80-14 120 0 80 14 120 0 80-14 120 0"/></svg>
+        <p class="doodle__tag">Fire · Smoke · Patience — Banani, Dhaka</p>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© <span id="year">2026</span> Woodhouse Grill. All rights reserved.</span>
+      <a href="#top" data-scroll class="footer__top-link">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/fx.js"></script>
+  <script src="js/main.js"></script>
+  <script type="module" src="js/studio.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Studio test</title>
+<style>html,body{margin:0;height:100%;background:radial-gradient(ellipse at 50% 60%,#2a140b,#0b0806 70%)}#c{position:absolute;inset:0}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head><body><div id="c"></div>
+<script type="module">
+import { createStudio } from '../js/steak3d.js';
+window.studio = createStudio(document.getElementById('c'));
+window.studio.show(new URLSearchParams(location.search).get('cut') || 'ribeye');
+window.adv = ms => { const end = performance.now() + ms; while (performance.now() < end) { const s = performance.now(); while (performance.now() - s < 16) {} gsap.ticker.tick(); studio.renderNow(); } };
+</script></body></html>

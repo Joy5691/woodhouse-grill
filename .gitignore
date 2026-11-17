@@ -1,0 +1,14 @@
+# editor / local tooling
+.claude/
+.vercel/
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# raw source screenshots & references kept outside the repo
+# (the copies the site needs live in site/assets/)
+/*.jpeg
+/woodhouse grill logo.jpg
+/reference/

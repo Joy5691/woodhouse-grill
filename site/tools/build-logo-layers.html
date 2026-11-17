@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Logo layer builder (dev tool)</title></head>
+<body style="background:#222;color:#eee;font:13px monospace">
+<p>Dev tool: splits the logo JPG into transparent PNG layers used by the loader animation.
+Run via the local dev server (it saves files with HTTP PUT).</p>
+<pre id="log"></pre>
+<script>
+const log = m => (document.getElementById('log').textContent += m + '\n');
+const SRC = '../assets/logo/logo-original.jpg';
+const OUT_W = 1200;                // output width (half of 2400 source)
+const CX = 1188, CY = 905;          // circle centre in source px
+const R_DISC = 742;                // inner edge of the red ring
+
+// element rectangles in source pixels [x0,y0,x1,y1]
+const RECT = {
+  flame: [880, 200, 1460, 549],
+  fork:  [600, 628, 1760, 796],
+  knife: [620, 796, 1760, 955],
+  word:  [235, 925, 2165, 1276],
+  line:  [235, 1276, 2165, 1302],
+  grill: [680, 1302, 1700, 1458],
+};
+const inRect = (x, y, r) => x >= r[0] && x < r[2] && y >= r[1] && y < r[3];
+const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
+
+const img = new Image();
+img.onload = () => {
+  const W = img.width, H = img.height;
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0);
+  const src = ctx.getImageData(0, 0, W, H).data;
+
+  const layerNames = ['full', 'ring', 'disc', 'flame', 'fork', 'knife', 'word', 'line', 'grill'];
+  const L = {};
+  layerNames.forEach(n => L[n] = new ImageData(W, H));
+
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const i = (y * W + x) * 4;
+      const r = src[i], g = src[i + 1], b = src[i + 2];
+      const dx = x - CX, dy = y - CY, dist = Math.sqrt(dx * dx + dy * dy);
+      const inside = dist <= R_DISC;
+      const sum = r + g + b, mx = Math.max(r, g, b);
+      // white key (only outside the disc — fork & knife are white inside it)
+      const aWhite = inside ? 1 : clamp((748 - sum) / 80);
+      // black key (for elements sitting on the black disc)
+      const aBlack = clamp((mx - 45) / 55);
+
+      const put = (n, a) => {
+        if (a <= 0) return;
+        const d = L[n].data; d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = Math.round(a * 255);
+      };
+
+      put('full', aWhite);
+
+      let el = null;
+      for (const k in RECT) if (inRect(x, y, RECT[k])) { el = k; break; }
+
+      if (el === 'word' || el === 'line') {
+        // inside the disc: drop the black background; outside: keep outline, drop white
+        put(el, inside ? aBlack : aWhite);
+        if (inside) { // disc shows black behind the wordmark
+          const d = L.disc.data; d[i] = 8; d[i + 1] = 6; d[i + 2] = 5; d[i + 3] = 255;
+        }
+        continue;
+      }
+      if (el && inside) {
+        put(el, aBlack);
+        const d = L.disc.data; d[i] = 8; d[i + 1] = 6; d[i + 2] = 5; d[i + 3] = 255;
+        continue;
+      }
+      if (inside) put('disc', 1);
+      else put('ring', aWhite);
+    }
+  }
+
+  const H2 = Math.round(H * OUT_W / W);
+  const save = async (n) => {
+    const t = document.createElement('canvas'); t.width = W; t.height = H;
+    t.getContext('2d').putImageData(L[n], 0, 0);
+    const o = document.createElement('canvas'); o.width = OUT_W; o.height = H2;
+    const octx = o.getContext('2d'); octx.imageSmoothingQuality = 'high';
+    octx.drawImage(t, 0, 0, OUT_W, H2);
+    const blob = await new Promise(res => o.toBlob(res, 'image/png'));
+    const r = await fetch('../assets/logo/logo-' + n + '.png', { method: 'PUT', body: blob });
+    log(n + ': ' + (await r.text()) + ' (' + Math.round(blob.size / 1024) + ' KB)');
+  };
+  (async () => { for (const n of layerNames) await save(n); log('DONE ' + OUT_W + 'x' + H2); window.done = true; })();
+};
+img.src = SRC;
+</script>
+</body>
+</html>
