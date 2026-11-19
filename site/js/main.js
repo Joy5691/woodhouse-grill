@@ -164,36 +164,239 @@
   function applySearch() {} // kept for compatibility
 
   /* =========================================================
-     RESERVATION FORM
+     RESERVATION POPUP — when → your details → confirm on WhatsApp
      ========================================================= */
-  (function form() {
-    const f = $('#reserveForm'); if (!f) return;
-    const sel = f.elements.time;
-    for (let m = 13 * 60; m <= 23 * 60; m += 30) {
-      const h = Math.floor(m / 60), mm = m % 60, h12 = h > 12 ? h - 12 : h;
-      const o = document.createElement('option'); o.value = o.textContent = `${h12}:${String(mm).padStart(2, '0')} PM`; sel.appendChild(o);
+  (function reserve() {
+    const root = $('#rsv'), form = $('#rsvForm');
+    if (!root || !form) return;
+    const dlg = $('.rsv__dialog', root), body = $('#rsvBody'), side = $('.rsv__side', root);
+    const steps = $$('.rsv__step', root), bars = $$('.rsv__steps li', root);
+    const next = $('#rsvNext'), back = $('#rsvBack'), sum = $('#rsvSum');
+    const daysEl = $('#rsvDays'), timesEl = $('#rsvTimes'), partyEl = $('#rsvParty'), bigEl = $('#rsvBig'), bigOut = $('#rsvBigOut');
+    const dateIn = $('#rsvDate'), occEl = $('#rsvOcc'), F = form.elements;
+    const LEAD = 30, LAST = 23 * 60, NDAYS = 14;
+    const GROUPS = [['Lunch', 13 * 60, 15 * 60 + 30], ['Evening', 16 * 60, 18 * 60 + 30], ['Dinner', 19 * 60, LAST]];
+    const OCC = ['Birthday', 'Anniversary', 'Date night', 'Family', 'Friends', 'Business'];
+    const S = { iso: '', time: null, guests: 2, occ: '', step: 0 };
+    const store = {
+      get(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } }
+    };
+
+    // Dhaka calendar (UTC+6, no daylight saving)
+    const dhakaNow = () => new Date(Date.now() + 6 * 3600e3);
+    const todayISO = () => dhakaNow().toISOString().slice(0, 10);
+    const D8 = iso => new Date(iso + 'T00:00:00Z');
+    const addDays = (iso, n) => { const d = D8(iso); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+    const fmtD = (iso, o) => D8(iso).toLocaleDateString('en-GB', Object.assign({ timeZone: 'UTC' }, o));
+    const nowMin = () => { const t = dhakaNow(); return t.getUTCHours() * 60 + t.getUTCMinutes(); };
+    const t12 = m => { const h = Math.floor(m / 60); return `${h % 12 || 12}:${String(m % 60).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`; };
+    const slotOk = (iso, m) => iso !== todayISO() || m >= nowMin() + LEAD;
+    const dayOpen = iso => iso !== todayISO() || nowMin() + LEAD <= LAST;
+    const firstSlot = iso => { for (const [, a, b] of GROUPS) for (let m = a; m <= b; m += 30) if (slotOk(iso, m)) return m; return null; };
+    const firstOpenDay = () => dayOpen(todayISO()) ? todayISO() : addDays(todayISO(), 1);
+    const weekend = () => { for (let i = 2; i < 9; i++) { const c = addDays(todayISO(), i), wd = D8(c).getUTCDay(); if (wd === 5 || wd === 6) return c; } return addDays(todayISO(), 2); };
+    const shortDate = iso => fmtD(iso, { weekday: 'short', day: 'numeric', month: 'short' });
+
+    /* ---- painters ---- */
+    function paintDays() {
+      const t = todayISO(); let h = '';
+      for (let i = 0; i < NDAYS; i++) {
+        const iso = addDays(t, i), wd = D8(iso).getUTCDay();
+        const top = i === 0 ? 'Today' : i === 1 ? 'Tmrw' : fmtD(iso, { weekday: 'short' });
+        h += `<button type="button" class="day${wd === 5 || wd === 6 ? ' is-wknd' : ''}" data-iso="${iso}" aria-pressed="${iso === S.iso}" aria-label="${fmtD(iso, { weekday: 'long', day: 'numeric', month: 'long' })}"${dayOpen(iso) ? '' : ' disabled'}><small>${top}</small><b>${D8(iso).getUTCDate()}</b><span>${fmtD(iso, { month: 'short' })}</span></button>`;
+      }
+      const custom = S.iso > addDays(t, NDAYS - 1);
+      h += `<button type="button" class="day day--more" data-more aria-pressed="${custom}" aria-label="Pick a later date">${custom
+        ? `<small>${fmtD(S.iso, { weekday: 'short' })}</small><b>${D8(S.iso).getUTCDate()}</b><span>${fmtD(S.iso, { month: 'short' })}</span>`
+        : '<svg><use href="#i-cal"/></svg><span>Later</span>'}</button>`;
+      daysEl.innerHTML = h;
+      $('#rsvMonth').textContent = fmtD(S.iso || t, { month: 'long', year: 'numeric' });
+      dateIn.min = t; dateIn.max = addDays(t, 120);
     }
-    const d = f.elements.date, dk = new Date(Date.now() + 6 * 3600e3);
-    d.min = dk.toISOString().slice(0, 10); d.value = d.min;
-    let guests = 2; const out = $('#guestsOut');
-    f.addEventListener('click', e => {
-      const b = e.target.closest('[data-g]'); if (!b) return;
-      guests = Math.max(1, Math.min(40, guests + +b.dataset.g)); out.textContent = guests;
-    });
-    f.addEventListener('submit', e => {
+    function paintTimes() {
+      if (S.time != null && !slotOk(S.iso, S.time)) S.time = null;
+      const isToday = S.iso === todayISO(), first = firstSlot(S.iso);
+      $('#rsvTimeHint').textContent = isToday && first != null ? `Today from ${t12(first)}` : 'Last seating 11 PM';
+      if (first == null) { timesEl.innerHTML = '<p class="slots__none">We&rsquo;re past last seating for today. Pick another day.</p>'; return; }
+      timesEl.innerHTML = GROUPS.map(([label, a, b]) => {
+        let row = '', any = false;
+        for (let m = a; m <= b; m += 30) { const ok = slotOk(S.iso, m); any = any || ok; row += `<button type="button" class="slot" data-m="${m}" aria-pressed="${m === S.time}"${ok ? '' : ' disabled'}>${t12(m)}</button>`; }
+        return any ? `<div class="slots__g"><small>${label}</small><div class="slots__row">${row}</div></div>` : '';
+      }).join('');
+    }
+    function paintParty() {
+      partyEl.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button type="button" class="pchip" data-n="${n}" aria-pressed="${S.guests === n}" aria-label="${n} guest${n > 1 ? 's' : ''}">${n}</button>`).join('')
+        + `<button type="button" class="pchip" data-n="9" aria-pressed="${S.guests >= 9}" aria-label="9 or more guests">9+</button>`;
+      bigEl.hidden = S.guests < 9; bigOut.textContent = S.guests;
+    }
+    function paintOcc() { occEl.innerHTML = OCC.map(o => `<button type="button" data-occ="${o}" aria-pressed="${o === S.occ}">${o}</button>`).join(''); }
+
+    /* ---- the live ticket + footer summary ---- */
+    function setT(k, v) {
+      const el = $(`[data-t="${k}"]`, root); if (!el || el.textContent === v) return;
+      el.textContent = v; el.classList.remove('is-bump'); void el.offsetWidth; el.classList.add('is-bump');
+    }
+    function sync() {
+      setT('date', S.iso ? shortDate(S.iso) : '—');
+      setT('time', S.time != null ? t12(S.time) : '—');
+      setT('guests', String(S.guests));
+      setT('name', F.name.value.trim().split(/\s+/)[0] || '—');
+      sum.classList.remove('is-err');
+      sum.innerHTML = `<b>${shortDate(S.iso)}</b> · ${S.time != null ? `<b>${t12(S.time)}</b>` : 'pick a time'} · ${S.guests} guest${S.guests > 1 ? 's' : ''}`;
+    }
+    function fail(msg) {
+      sum.textContent = msg; sum.classList.add('is-err');
+      next.classList.remove('is-shake'); void next.offsetWidth; next.classList.add('is-shake');
+    }
+
+    /* ---- steps ---- */
+    function go(n) {
+      const dir = n < S.step ? 'back' : 'fwd'; S.step = n; root.dataset.step = n;
+      steps.forEach((s, i) => { s.classList.toggle('is-on', i === n); s.classList.toggle('is-back', i === n && dir === 'back'); });
+      bars.forEach((b, i) => { b.classList.toggle('is-on', i === n && n < 3); b.classList.toggle('is-done', i < n); });
+      back.hidden = n === 0;
+      root.classList.toggle('is-sent', n === 3);
+      if (n < 3) {
+        next.className = 'btn rsv__next ' + (n === 2 ? 'btn--wa' : 'btn--fire');
+        next.innerHTML = n === 2 ? '<svg><use href="#i-wa"/></svg><span>Send on WhatsApp</span>'
+          : `<span>${n === 0 ? 'Continue' : 'Review'}</span><svg><use href="#i-arrow"/></svg>`;
+      }
+      if (n === 2) paintReview();
+      body.scrollTop = 0; sync();
+      if (n === 1 && FINE) setTimeout(() => { const el = !F.name.value ? F.name : !F.phone.value ? F.phone : null; el && el.focus({ preventScroll: true }); }, 80);
+    }
+    function phoneOk(v) {
+      const digits = v.replace(/\D/g, ''), local = digits.replace(/^880/, '').replace(/^0/, '');
+      return /^1[3-9]\d{8}$/.test(local) || (v.trim()[0] === '+' && digits.length >= 8 && digits.length <= 15);
+    }
+    function detailsOk() {
+      const badN = F.name.value.trim().length < 2, badP = !phoneOk(F.phone.value);
+      F.name.closest('.field').classList.toggle('is-error', badN);
+      F.phone.closest('.field').classList.toggle('is-error', badP);
+      if (badN || badP) (badN ? F.name : F.phone).focus({ preventScroll: false });
+      return !badN && !badP;
+    }
+    function message() {
+      const lines = ["Hello Woodhouse Grill! I'd like to reserve a table.", '',
+        `Date: ${fmtD(S.iso, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}`,
+        `Time: ${t12(S.time)}`, `Guests: ${S.guests}`,
+        `Name: ${F.name.value.trim()}`, `Phone: ${F.phone.value.trim()}`];
+      if (S.occ) lines.push(`Occasion: ${S.occ}`);
+      if (F.notes.value.trim()) lines.push(`Notes: ${F.notes.value.trim()}`);
+      return lines.join('\n');
+    }
+    function paintReview() {
+      const rows = [['Date', shortDate(S.iso), 0], ['Time', t12(S.time), 0],
+        ['Guests', `${S.guests} ${S.guests > 1 ? 'people' : 'person'}`, 0], ['Name', F.name.value.trim(), 1], ['Phone', F.phone.value.trim(), 1],
+        ['Occasion', S.occ || 'None', 1]];
+      if (F.notes.value.trim()) rows.push(['Notes', F.notes.value.trim(), 1, 1]);
+      $('#rsvReview').innerHTML = rows.map(([k, v, st, wide]) => `<li${wide ? ' class="is-wide"' : ''}><button type="button" data-edit="${st}" aria-label="${k}: ${esc(v)}. Edit"><small>${k}</small><b>${esc(v)}</b></button></li>`).join('');
+      $('#rsvMsg').textContent = message();
+    }
+    function send() {
+      const url = `https://wa.me/${D.whatsapp}?text=${encodeURIComponent(message())}`;
+      window.open(url, '_blank', 'noopener');
+      $('#rsvAgain').href = url;
+      store.set('wh_name', F.name.value.trim()); store.set('wh_phone', F.phone.value.trim());
+      go(3);
+    }
+
+    form.addEventListener('submit', e => {
       e.preventDefault();
-      let ok = true;
-      ['name', 'phone', 'date', 'time'].forEach(n => {
-        const el = f.elements[n], bad = !el.value.trim() || (n === 'phone' && el.value.replace(/\D/g, '').length < 10);
-        el.closest('.field').classList.toggle('is-error', bad); if (bad) ok = false;
-      });
-      const msg = $('#reserveMsg');
-      if (!ok) { msg.textContent = 'Please add your name, phone, date and time.'; return; }
-      const dt = new Date(d.value + 'T00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
-      const text = `Hello Woodhouse Grill! I'd like to reserve a table.\n\nName: ${f.elements.name.value}\nPhone: ${f.elements.phone.value}\nDate: ${dt}\nTime: ${sel.value}\nGuests: ${guests}` + (f.elements.notes.value ? `\nNotes: ${f.elements.notes.value}` : '');
-      window.open(`https://wa.me/${D.whatsapp}?text=` + encodeURIComponent(text), '_blank', 'noopener');
-      msg.textContent = 'Opening WhatsApp — just press send to confirm.';
+      if (S.step === 0) return S.time == null ? fail('Pick a time for your table.') : go(1);
+      if (S.step === 1) return detailsOk() ? go(2) : fail('Add your name and a phone number we can reach.');
+      if (S.step === 2) send();
     });
+    back.addEventListener('click', () => go(Math.max(0, S.step - 1)));
+
+    root.addEventListener('click', e => {
+      const t = e.target;
+      if (t.closest('[data-rsv-close]')) return close();
+      const day = t.closest('.day');
+      if (day) {
+        if (day.hasAttribute('data-more')) { try { dateIn.showPicker(); } catch (err) { dateIn.focus(); dateIn.click(); } return; }
+        S.iso = day.dataset.iso; paintDays(); paintTimes(); sync(); return;
+      }
+      const slot = t.closest('.slot');
+      if (slot) { S.time = +slot.dataset.m; $$('.slot', timesEl).forEach(b => b.setAttribute('aria-pressed', String(b === slot))); sync(); return; }
+      const pc = t.closest('.pchip');
+      if (pc) { const n = +pc.dataset.n; S.guests = n === 9 ? Math.max(10, S.guests) : n; paintParty(); sync(); return; }
+      const bg = t.closest('[data-big]');
+      if (bg) { S.guests = Math.max(9, Math.min(60, S.guests + +bg.dataset.big)); bigOut.textContent = S.guests; sync(); return; }
+      const oc = t.closest('[data-occ]');
+      if (oc) { S.occ = S.occ === oc.dataset.occ ? '' : oc.dataset.occ; $$('[data-occ]', occEl).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.occ === S.occ))); return; }
+      const ed = t.closest('[data-edit]');
+      if (ed) go(+ed.dataset.edit);
+    });
+    dateIn.addEventListener('change', () => {
+      if (!dateIn.value) return;
+      S.iso = dateIn.value < todayISO() ? todayISO() : dateIn.value;
+      paintDays(); paintTimes(); sync();
+    });
+    F.name.addEventListener('input', sync);
+    ['name', 'phone'].forEach(n => F[n].addEventListener('input', () => F[n].closest('.field').classList.remove('is-error')));
+
+    /* ---- open / close ---- */
+    let lastFocus = null, closeT = 0;
+    function open(opt = {}) {
+      clearTimeout(closeT); closeMnav();
+      if (S.step === 3) { S.time = null; S.occ = ''; F.notes.value = ''; paintOcc(); }
+      if (opt.day === '0') S.iso = todayISO();
+      else if (opt.day === '1') S.iso = addDays(todayISO(), 1);
+      else if (opt.day === 'fri') S.iso = weekend();
+      if (!S.iso || S.iso < todayISO() || !dayOpen(S.iso)) S.iso = firstOpenDay();
+      paintDays(); paintTimes(); paintParty(); go(0);
+      lastFocus = document.activeElement;
+      dlg.style.setProperty('--drag', '0px');
+      root.hidden = false; html.classList.add('rsv-open'); document.body.style.overflow = 'hidden';
+      const sel = $('.day[aria-pressed="true"]', daysEl);
+      if (sel) daysEl.scrollLeft = Math.max(0, sel.offsetLeft - daysEl.firstElementChild.offsetLeft - 6);
+      requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-open')));
+      setTimeout(() => (sel || dlg).focus({ preventScroll: true }), 120);
+    }
+    function close() {
+      if (root.hidden || !root.classList.contains('is-open')) return;
+      root.classList.remove('is-open'); html.classList.remove('rsv-open');
+      closeT = setTimeout(() => { root.hidden = true; root.classList.remove('is-sent'); document.body.style.overflow = ''; }, 480);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    }
+    document.addEventListener('click', e => {
+      const t = e.target.closest('[data-reserve]'); if (!t) return;
+      e.preventDefault(); open({ day: t.dataset.day });
+    });
+    document.addEventListener('keydown', e => {
+      if (root.hidden) return;
+      if (e.key === 'Escape') return close();
+      if (e.key !== 'Tab') return;
+      const f = $$('button, a[href], input:not([tabindex="-1"]), textarea', dlg).filter(el => !el.disabled && el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    // phones: drag the sheet header down to close
+    let y0 = null, dy = 0;
+    side.addEventListener('touchstart', e => { if (innerWidth > 760) return; y0 = e.touches[0].clientY; dy = 0; root.classList.add('is-dragging'); }, { passive: true });
+    side.addEventListener('touchmove', e => { if (y0 == null) return; dy = Math.max(0, e.touches[0].clientY - y0); dlg.style.setProperty('--drag', dy + 'px'); }, { passive: true });
+    const endDrag = () => { if (y0 == null) return; y0 = null; root.classList.remove('is-dragging'); if (dy > 110) close(); else dlg.style.setProperty('--drag', '0px'); };
+    side.addEventListener('touchend', endDrag); side.addEventListener('touchcancel', endDrag);
+
+    /* ---- quick-start chips on the contact card ---- */
+    function paintQuick() {
+      const q = $('#rsvQuick'); if (!q) return;
+      const t = todayISO(), first = firstSlot(t), wk = weekend();
+      const tonight = $('[data-day="0"]', q), tmrw = $('[data-day="1"]', q), wkb = $('[data-day="fri"]', q);
+      tonight.disabled = first == null;
+      $('b', tonight).textContent = first == null ? 'Closed' : `From ${t12(first)}`;
+      $('b', tmrw).textContent = fmtD(addDays(t, 1), { weekday: 'short', day: 'numeric', month: 'short' });
+      $('small', wkb).textContent = fmtD(wk, { weekday: 'long' });
+      $('b', wkb).textContent = fmtD(wk, { day: 'numeric', month: 'short' });
+    }
+
+    F.name.value = store.get('wh_name'); F.phone.value = store.get('wh_phone');
+    S.iso = firstOpenDay();
+    paintOcc(); paintParty(); paintQuick(); setInterval(paintQuick, 60000);
   })();
 
   /* =========================================================
@@ -215,7 +418,7 @@
         const st = t >= O && t < C ? '<b>Open now</b> — kitchen fires until 12:00 AM' : t < O ? `<b>Opens today at 1:00 PM</b>` : '<b>Closed for tonight</b> — back tomorrow at 1:00 PM';
         return `Today (${name}): ${st}`;
       }
-      return `<b>${name}</b>: open 1:00 PM – 12:00 AM. Walk in or reserve below.`;
+      return `<b>${name}</b>: open 1:00 PM – 12:00 AM. Walk in or reserve ahead.`;
     }
     function select(i) {
       selected = i;
